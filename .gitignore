@@ -1,0 +1,24 @@
+[200~node_modules/
+temp/
+pdf_files/
+sessions/
+
+#Compiled Source
+*.com
+*.so
+*.dll
+*.exe
+*.o
+*.pdf
+
+# Packages
+*.zip
+*.7z
+*.dmg
+*.iso
+*.jar
+*.rar
+*.tar
+package-lock.json
+
+
