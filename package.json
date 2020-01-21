@@ -1,0 +1,26 @@
+{
+  "name": "chartapp",
+  "version": "1.0.0",
+  "description": "Get SP500 data from Yahoo Finance",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon app.js"
+  },
+  "keywords": [
+    "SP500",
+    "Yahoo"
+  ],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "nodemon": "^1.18.10"
+  },
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "ejs": "^3.0.1",
+    "express": "^4.17.1",
+    "express-ejs-layouts": "^2.5.0",
+    "request": "^2.88.0"
+  }
+}
