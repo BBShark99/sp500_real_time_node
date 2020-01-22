@@ -51,7 +51,9 @@ app.post('/getchartdata',(req,res,next)=>{
     //console.log(student['chart']['result'][0]['timestamp']);
     var timearr = convertts_to_time(student['chart']['result'][0]['timestamp']);
     //console.log(timearr);
-    res.send( {'x-axis':timearr,'y-axis':student['chart']['result'][0]['indicators']['quote'][0]["open"]});
+    var valarr = convert_to_fixed(student['chart']['result'][0]['indicators']['quote'][0]["open"]);
+    //res.send( {'x-axis':timearr,'y-axis':student['chart']['result'][0]['indicators']['quote'][0]["open"]});
+    res.send( {'x-axis':timearr,'y-axis':valarr});
 });
 
 
@@ -77,8 +79,8 @@ app.post('/getlivedata',(req,res,next)=>{
         let student = JSON.parse(body);
         var timearr = convertts_to_time(student['chart']['result'][0]['timestamp']);
         console.log("live data");
-
-        res.send( {'x-axis':timearr,'y-axis':student['chart']['result'][0]['indicators']['quote'][0]["open"]});
+        var valarr = convert_to_fixed(student['chart']['result'][0]['indicators']['quote'][0]["open"]);
+        res.send( {'x-axis':timearr,'y-axis':valarr});
     });
 });
 
@@ -105,6 +107,16 @@ function test(){
     });
 }
 
+
+function convert_to_fixed(arr){
+    var res = [];
+    for(var i = 0; i<arr.length; i ++ ){
+       
+        var val = parseFloat(arr[i].toFixed(2));
+        res.push(val);
+    }
+    return res;
+}
 function convertts_to_time(tsarr){
     var res = [];
     for(var i = 0; i<tsarr.length; i ++ ){

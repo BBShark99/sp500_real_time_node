@@ -5,22 +5,12 @@
     <!-- Header -->
     <%- include ('../partial/auth/header') %>
     <!-- Page content -->
-    <div class="container mt--8 pb-5">
+    <div class="container mt--8 pb-5" style="width: 100%;max-width: 1250px;">
       <div class="row justify-content-center">
-        <div class="col-lg-10 col-md-7">
+        <div class="col-lg-12 ">
           <div class="card bg-secondary shadow border-0">
-            <div class="card-header bg-transparent pb-5" style="text-align:center;">
-            <!--  <div class="text-muted text-center mt-2 mb-3"><small>Sign in with</small></div>
-              <div class="btn-wrapper text-center">
-                <a href="#" class="btn btn-neutral btn-icon">
-                  <span class="btn-inner--icon"><img src="img/icons/common/github.svg"></span>
-                  <span class="btn-inner--text">Github</span>
-                </a>
-                <a href="#" class="btn btn-neutral btn-icon">
-                  <span class="btn-inner--icon"><img src="img/icons/common/google.svg"></span>
-                  <span class="btn-inner--text">Google</span>
-                </a>
-              </div>-->
+            <div class="card-header bg-transparent pb-5" style="text-align:left;">
+              <button class="btn btn-primary my-4" onclick = "updatefunc();">Get Realtime Data</button>
               
             </div>
             <div class="card-body px-lg-12 py-lg-12">
@@ -44,58 +34,118 @@
   <%- include ('../partial/scripts')%>
   <script>
       
-    // var options = {
-    //   series: [{
-    //     name: "Desktops",
-    //     data: [10, 41, 35, 51, 49, 62, 69, 91, 148]
-    // }],
-    //   chart: {
-    //   height: 350,
-    //   type: 'line',
-    //   zoom: {
-    //     enabled: false
-    //   }
-    // },
-    // dataLabels: {
-    //   enabled: false
-    // },
-    // stroke: {
-    //   curve: 'straight'
-    // },
-    // title: {
-    //   text: 'Product Trends by Month',
-    //   align: 'left'
-    // },
-    // grid: {
-    //   row: {
-    //     colors: ['#f3f3f3', 'transparent'], // takes an array which will be repeated on columns
-    //     opacity: 0.5
-    //   },
-    // },
-    // xaxis: {
-    //   categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep'],
-    // }
-    // };
+    
+    var chart = null;
 
-    // var chart = new ApexCharts(document.querySelector("#chart"), options);
-    // chart.render();
-  
+    function updatefunc(){
+      $.ajax({
+        type:"POST",
+        url:"getlivedata",//replace with getlivedata 
+        data: {},
+        success: function(data,status){
+
+          chart.updateOptions({
+            xaxis: {
+              categories: data['x-axis'],
+              labels:{
+                style: {
+                    colors: [],
+                    fontSize: '8px',
+                    fontFamily: 'Helvetica, Arial, sans-serif',
+                    cssClass: 'apexcharts-xaxis-label',
+                }
+              }
+            }
+          })
+
+          chart.updateSeries([{
+              data: data['y-axis']
+            }])
+          }
+      });
+    
+    
+    
+//       chart.updateOptions({
+//         xaxis: {
+//       categories: ["A", "B", "C"],
+//       labels:{
+//         style: {
+//             colors: [],
+//             fontSize: '8px',
+//             fontFamily: 'Helvetica, Arial, sans-serif',
+//             cssClass: 'apexcharts-xaxis-label',
+//         }
+//       }
+//     }
+//       })
+
+//       chart.updateSeries([{
+//   data: [32, 44, 31]
+// }])
+      //$('#chart').empty();
+      /*
+      async changeData() {
+      ApexCharts.exec("chart1", "updateOptions", {
+        xaxis: {
+          categories: ["A", "B", "C"]
+        }
+      });
+
+      ApexCharts.exec("chart1", "updateSeries", [
+        {
+          data: [32, 44, 31]
+        }
+      ]);
+    }
+
+
+    chart.updateOptions({
+  xaxis: {
+    labels: {
+      show: false
+    }
+  },
+  yaxis: {
+    min: 20,
+    max: 100
+  }
+})
+
+
+chart.updateSeries([{
+  data: [32, 44, 31, 41, 22]
+}])
+// example of series in another format
+chart.updateSeries([{
+  data: [{
+    x: "02-02-2002",
+    y: 44
+  }, {
+    x: "12-02-2002",
+    y: 51
+  }]
+}])
+      */
+
+
+    }
     function testfunc(){
       $.ajax({
         type:"POST",
-        url:"getchartdata",//replace with getlivedata
+        url:"getchartdata",//replace with getlivedata 
         data: {},
         success: function(data,status){
            // Utils.hideLoading();
             console.log(data);
             var options = {
       series: [{
-        name: "value",
+        name: "STOCK SP500",
         data: data['y-axis']
     }],
       chart: {
       height: 350,
-      type: 'line',
+      type: 'area',
       zoom: {
         enabled: false
       }
@@ -107,7 +157,7 @@
       curve: 'straight'
     },
     title: {
-      text: 'Product Trends by Month',
+      text: 'SP500',
       align: 'left'
     },
     grid: {
@@ -132,7 +182,7 @@
     }
     };
 
-    var chart = new ApexCharts(document.querySelector("#chart"), options);
+    chart = new ApexCharts(document.querySelector("#chart"), options);
     chart.render();
 
 
