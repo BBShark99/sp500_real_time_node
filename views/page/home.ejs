@@ -7,22 +7,23 @@
     <!-- Page content -->
     <div class="container mt--8 pb-5" style="width: 100%;max-width: 1250px;">
       <div class="row justify-content-center">
-        <div class="col-lg-12 ">
+        <div class="col-lg-2">
+          <div style="overflow: scroll;height: 500px;" class="card bg-secondary shadow border-0">
+            <div class="card-body">
+              <button style="margin-bottom: 1rem;" class="btn" onclick = "getSymData('AAPL')">(APPLE) AAPL</button>
+              <button style="margin-bottom: 1rem;" class="btn" onclick = "getSymData('AAL')">(American Airlines) AAL</button>
+              <button style="margin-bottom: 1rem;" class="btn" onclick = "getSymData('MMM')">(3M) MMM</button>
+
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-10">
           <div class="card bg-secondary shadow border-0">
-            <div class="card-header bg-transparent pb-5" style="text-align:left;">
-              <button class="btn btn-primary my-4" onclick = "updatefunc();">Get Realtime Data</button>
-              
+            <div class="card-header bg-transparent" style="text-align:left;">
+              <button class="btn btn-primary" onclick = "updatefunc();">Get Realtime Data</button>
             </div>
             <div class="card-body px-lg-12 py-lg-12">
-            <!--  <div class="text-center text-muted mb-4">
-                <small>Or sign in with credentials</small>
-                <br />
-                <small>
-                  You can use <strong>admin@argon.com</strong> and <strong>secret</strong> to login
-                </small>
-              </div> -->
-              <div id="chart" style="overflow: scroll;"></div>
-              
+              <div id="chart" style=""></div>  
             </div>
           </div>
         </div>
@@ -36,6 +37,39 @@
       
     
     var chart = null;
+
+    function getSymData(sym){
+      $.ajax({
+        type:"POST",
+        url:"getliveSymdata",//replace with getlivedata 
+        data: {sym:sym},
+        success: function(data,status){
+
+          chart.updateOptions({
+            title: {
+              text: sym,
+              align: 'left'
+            },
+            xaxis: {
+              categories: data['x-axis'],
+              labels:{
+                style: {
+                    colors: [],
+                    fontSize: '8px',
+                    fontFamily: 'Helvetica, Arial, sans-serif',
+                    cssClass: 'apexcharts-xaxis-label',
+                }
+              }
+            }
+          })
+
+          chart.updateSeries([{
+              name: "STOCK " + sym,
+              data: data['y-axis']
+            }])
+          }
+      });
+    }
 
     function updatefunc(){
       $.ajax({
@@ -59,6 +93,7 @@
           })
 
           chart.updateSeries([{
+              name: "STOCK SP500",
               data: data['y-axis']
             }])
           }

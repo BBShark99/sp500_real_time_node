@@ -56,6 +56,34 @@ app.post('/getchartdata',(req,res,next)=>{
     res.send( {'x-axis':timearr,'y-axis':valarr});
 });
 
+app.post('/getliveSymdata',(req,res,next)=>{
+    console.log(req.body);
+    //res.send({});
+    var options = {
+        method: 'GET',
+        url: 'https://apidojo-yahoo-finance-v1.p.rapidapi.com/market/get-charts',
+        qs: {
+            region: 'US',
+            lang: 'en',
+            symbol: req.body.sym,
+            interval: '5m',
+            range: '1d'
+        },
+        headers: {
+            'x-rapidapi-host': 'apidojo-yahoo-finance-v1.p.rapidapi.com',
+            'x-rapidapi-key': 'c1ae93eb66mshe22c2e33ba9d6a4p15b017jsnea478f1e6a0a'
+        }
+    };
+    request(options, function (error, response, body) {
+        if (error) throw new Error(error);
+        //console.log(body);
+        let student = JSON.parse(body);
+        var timearr = convertts_to_time(student['chart']['result'][0]['timestamp']);
+        console.log("live sym data");
+        var valarr = convert_to_fixed(student['chart']['result'][0]['indicators']['quote'][0]["open"]);
+        res.send( {'x-axis':timearr,'y-axis':valarr});
+    });
+});
 
 app.post('/getlivedata',(req,res,next)=>{
     var options = {
