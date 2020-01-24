@@ -103,7 +103,7 @@ app.post('/getlivedata',(req,res,next)=>{
     };
     request(options, function (error, response, body) {
         if (error) throw new Error(error);
-        //console.log(body);
+        console.log(body);
         let student = JSON.parse(body);
         var timearr = convertts_to_time(student['chart']['result'][0]['timestamp']);
         console.log("live data");
@@ -155,7 +155,8 @@ function convertts_to_time(tsarr){
     var ts_ms = ts * 1000;
 
     // initialize new Date object
-    var date_ob = new Date(ts_ms);
+    var date_ob = new Date(ts_ms).toLocaleString("en-US",{timeZone:'America/New_York'});
+    date_ob = new Date(date_ob);
 
     // year as 4 digits (YYYY)
     var year = date_ob.getFullYear();

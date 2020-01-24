@@ -1,7 +1,7 @@
 <body class="bg-default" onload="testfunc()">
   <div class="main-content">
     <!-- Navbar -->
-    <%- include ('../partial/auth/navbar') %>
+   
     <!-- Header -->
     <%- include ('../partial/auth/header') %>
     <!-- Page content -->
@@ -10,11 +10,13 @@
         <div class="col-lg-2">
           <div style="overflow: scroll;height: 500px;" class="card bg-secondary shadow border-0">
             <div class="card-body">
+              <button style="margin-bottom: 1rem;" class="btn" onclick = "getSymData('^XSP')">(XSP) XSP</button>
               <button style="margin-bottom: 1rem;" class="btn" onclick = "getSymData('AAPL')">(APPLE) AAPL</button>
               <button style="margin-bottom: 1rem;" class="btn" onclick = "getSymData('AAL')">(American Airlines) AAL</button>
               <button style="margin-bottom: 1rem;" class="btn" onclick = "getSymData('MMM')">(3M) MMM</button>
 
             </div>
+
           </div>
         </div>
         <div class="col-lg-10">
@@ -31,7 +33,7 @@
     </div>
   </div>
   <!-- Footer -->
-  <%- include ('../partial/auth/footer') %>
+  
   <%- include ('../partial/scripts')%>
   <script>
       
@@ -39,10 +41,11 @@
     var chart = null;
 
     function getSymData(sym){
+      
       $.ajax({
         type:"POST",
         url:"getliveSymdata",//replace with getlivedata 
-        data: {sym:sym},
+        data: {sym:encodeURI(sym)},
         success: function(data,status){
 
           chart.updateOptions({
@@ -213,7 +216,7 @@ chart.updateSeries([{
       }
     },
     yaxis:{
-      show:false
+      show:true
     }
     };
 
