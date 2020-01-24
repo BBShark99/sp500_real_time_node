@@ -140,8 +140,12 @@ function convert_to_fixed(arr){
     var res = [];
     for(var i = 0; i<arr.length; i ++ ){
        
-        var val = parseFloat(arr[i].toFixed(2));
-        res.push(val);
+        if(arr[i] !== null){
+            var val = parseFloat(arr[i].toFixed(2));
+            res.push(val);
+        }else{
+            res.push(null);
+        }
     }
     return res;
 }
@@ -158,6 +162,7 @@ function convertts_to_time(tsarr){
     var date_ob = new Date(ts_ms).toLocaleString("en-US",{timeZone:'America/New_York'});
     date_ob = new Date(date_ob);
 
+    //console.log(date_ob.toString())
     // year as 4 digits (YYYY)
     var year = date_ob.getFullYear();
 
@@ -177,8 +182,8 @@ function convertts_to_time(tsarr){
     var seconds = ("0" + date_ob.getSeconds()).slice(-2);
 
     // date as YYYY-MM-DD format
-    //console.log("Date as YYYY-MM-DD Format: " + year + "-" + month + "-" + date);
-    //console.log("Time as hh:mm Format: " + hours + ":" + minutes);
+    console.log("Date as YYYY-MM-DD Format: " + year + "-" + month + "-" + date);
+    console.log("Time as hh:mm Format: " + hours + ":" + minutes);
         res.push(hours + ":" + minutes);
     }
     //console.log(res);
