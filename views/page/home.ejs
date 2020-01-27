@@ -47,10 +47,46 @@
         url:"getliveSymdata",//replace with getlivedata 
         data: {sym:encodeURI(sym)},
         success: function(data,status){
+          var lbl = sym;
+          if(sym === '^XSP'){
+            lbl = "SP 500 MINI SPX";
+          }
+          chart.updateOptions({
+            title: {
+              text: lbl,
+              align: 'left'
+            },
+            xaxis: {
+              categories: data['x-axis'],
+              labels:{
+                style: {
+                    colors: [],
+                    fontSize: '8px',
+                    fontFamily: 'Helvetica, Arial, sans-serif',
+                    cssClass: 'apexcharts-xaxis-label',
+                }
+              }
+            }
+          })
+         
+          chart.updateSeries([{
+              name: "STOCK " + lbl,
+              data: data['y-axis']
+            }])
+          }
+      });
+    }
+
+    function updatefunc(){
+      $.ajax({
+        type:"POST",
+        url:"getlivedata",//replace with getlivedata 
+        data: {},
+        success: function(data,status){
 
           chart.updateOptions({
             title: {
-              text: sym,
+              text: 'SP 500 Mini SPX',
               align: 'left'
             },
             xaxis: {
@@ -67,36 +103,7 @@
           })
 
           chart.updateSeries([{
-              name: "STOCK " + sym,
-              data: data['y-axis']
-            }])
-          }
-      });
-    }
-
-    function updatefunc(){
-      $.ajax({
-        type:"POST",
-        url:"getlivedata",//replace with getlivedata 
-        data: {},
-        success: function(data,status){
-
-          chart.updateOptions({
-            xaxis: {
-              categories: data['x-axis'],
-              labels:{
-                style: {
-                    colors: [],
-                    fontSize: '8px',
-                    fontFamily: 'Helvetica, Arial, sans-serif',
-                    cssClass: 'apexcharts-xaxis-label',
-                }
-              }
-            }
-          })
-
-          chart.updateSeries([{
-              name: "STOCK SP500",
+              name: "STOCK SP 500 Mini SPX",
               data: data['y-axis']
             }])
           }

@@ -92,7 +92,7 @@ app.post('/getlivedata',(req,res,next)=>{
         qs: {
             region: 'US',
             lang: 'en',
-            symbol: '%5EGSPC',
+            symbol: '%5EXSP',
             interval: '5m',
             range: '1d'
         },
